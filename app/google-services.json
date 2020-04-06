@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "787928955776",
+    "firebase_url": "https://myfavoriteplaces-bd611.firebaseio.com",
+    "project_id": "myfavoriteplaces-bd611",
+    "storage_bucket": "myfavoriteplaces-bd611.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:787928955776:android:a34d7d1f73e51cc00a9f65",
+        "android_client_info": {
+          "package_name": "com.bigbang.myfavoriteplaces"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "787928955776-olh1dpq4dk0put8fcv7mqrnnhu1nq8q5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2GVU1Q72oV7lj6P9c80JO5DY38yrWwfM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "787928955776-olh1dpq4dk0put8fcv7mqrnnhu1nq8q5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

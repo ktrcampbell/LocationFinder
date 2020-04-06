@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">MyFavoritePlaces</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="normal_map">Normal</string>
+    <string name="hybrid_map">Hybrid</string>
+    <string name="satellite_map">Satellite</string>
+    <string name="terrain_map">Terrain</string>
+    <string name="dropped_pin">Dropped Pin</string>
+    <string name="poi">Point of Interest</string>
+    <string name="permission_requirement_text">You will need location permission to use this application. Please enable permission from application settings.</string>
+    <string name="open_settings_text">Open Settings</string>
+</resources>
