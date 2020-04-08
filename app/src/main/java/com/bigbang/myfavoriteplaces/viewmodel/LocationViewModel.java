@@ -5,6 +5,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.MutableLiveData;
 
 import com.bigbang.myfavoriteplaces.database.LocationDB;
 import com.bigbang.myfavoriteplaces.database.LocationRepository;
@@ -36,6 +37,9 @@ public class LocationViewModel extends AndroidViewModel {
         else
             return false;
     }
+
+    private MutableLiveData<Boolean> regMLD = new MutableLiveData<>();
+    private MutableLiveData<Boolean> loginMLD = new MutableLiveData<>();
 
     public LocationViewModel(@NonNull Application application) {
         super(application);
@@ -71,7 +75,7 @@ public class LocationViewModel extends AndroidViewModel {
                         if (task.isComplete() && task.isSuccessful()) {
 
                             if (FirebaseAuth.getInstance().getCurrentUser().isEmailVerified()) {
-                                loginObserver.setValue(true);
+                                loginMLD.setValue(true);
                             } else
                                 Toast.makeText(getApplication(), "Please verify email sent to " + user.getUserName(), Toast.LENGTH_LONG).show();
                         } else {
@@ -92,21 +96,22 @@ public class LocationViewModel extends AndroidViewModel {
                         if (task.isComplete() && task.isSuccessful()) {
                             Toast.makeText(getApplication(), "User Creation Successful: Verification email sent.", Toast.LENGTH_LONG).show();
                             FirebaseAuth.getInstance().getCurrentUser().sendEmailVerification();
-                            registrationMLD.setValue(true);
+                            regMLD.setValue(true);
                         } else {
 
                             Toast.makeText(getApplication(), task.getException().getLocalizedMessage(), Toast.LENGTH_LONG).show();
-                            registrationMLD.setValue(false);
+                            regMLD.setValue(false);
                         }
                     }
                 });
     }
 
 
-    public Observable<Boolean> getRegistrationStatus() {
-
+    public MutableLiveData<Boolean> getRegistrationStatus() {
+        return regMLD;
     }
 
-    public Observable<Boolean> getLoginStatus() {
+    public MutableLiveData<Boolean> getLoginStatus() {
+        return loginMLD;
     }
 }

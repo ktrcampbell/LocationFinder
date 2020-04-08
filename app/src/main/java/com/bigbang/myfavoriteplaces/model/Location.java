@@ -9,7 +9,9 @@ import androidx.room.PrimaryKey;
 public class Location {
 
     @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
     private int locationId;
+
 
     @ColumnInfo(name = "latitude")
     private Double latitude;

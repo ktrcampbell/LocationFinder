@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -18,9 +19,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.bigbang.myfavoriteplaces.R;
+import com.bigbang.myfavoriteplaces.adapter.LocationListAdapter;
+import com.bigbang.myfavoriteplaces.database.LocationDB;
+import com.bigbang.myfavoriteplaces.database.LocationRepository;
 import com.bigbang.myfavoriteplaces.model.Location;
 import com.bigbang.myfavoriteplaces.util.DebugLogger;
 import com.bigbang.myfavoriteplaces.viewmodel.LocationViewModel;
+import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -34,6 +39,7 @@ import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PointOfInterest;
+import com.google.android.libraries.places.api.net.PlacesClient;
 
 import java.util.List;
 import java.util.Locale;
@@ -45,6 +51,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private GoogleMap mMap;
     private Toolbar toolbar;
     private LocationViewModel viewModel;
+    private LocationRepository locationRepository;
+
 
     public static final float ZOOM = 12f;
     public static final int REQUEST_LOCATION_PERMISSION = 1;
@@ -68,13 +76,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapFragment.getMapAsync(this);
 
         viewModel = ViewModelProviders.of(this).get(LocationViewModel.class);
-        viewModel.getFaveLocs()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(locations -> {displayFaves(locations),
-                        throwable -> {DebugLogger.logError(throwable)})
-    });
-    }
-    private void displayFaves(List<Location> locations) {
 
     }
 
@@ -106,6 +107,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
+    @SuppressLint("MissingPermission")
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -158,10 +160,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                         .title(getString(R.string.dropped_pin))
                         .snippet(snippet))
                         .setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+                Location favLocation = new Location(latLng.latitude, latLng.longitude);
+                locationRepository.addLocation(favLocation);
+                    }
+                });
 
             }
-        });
-    }
 
     private void setPoiClick(final GoogleMap map) {
         map.setOnPoiClickListener(new GoogleMap.OnPoiClickListener() {
